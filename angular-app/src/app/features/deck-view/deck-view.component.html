@@ -1,0 +1,33 @@
+<div class="controls">
+  <label>
+    Jokers:
+    <select #jokerCount (change)="onReset(+jokerCount.value)">
+      <option *ngFor="let n of [0, 1, 2]" [value]="n">{{ n }}</option>
+    </select>
+  </label>
+  <button (click)="onShuffle()">Shuffle</button>
+  <label>
+    Draw:
+    <input type="number" #drawCount value="1" min="1" />
+  </label>
+  <button (click)="onDraw(+drawCount.value)">Draw</button>
+  <button (click)="onSort()">Sort Drawn</button>
+  <button (click)="onUndo()">Undo</button>
+  <button (click)="onRedo()">Redo</button>
+</div>
+
+<div class="stats">
+  <p>Deck size: {{ deck.length }}</p>
+  <p>Drawn: {{ drawn.length }} cards (Points: {{ points }})</p>
+</div>
+
+<div class="drawn-cards">
+  <div *ngFor="let card of drawn" class="card">
+    <ng-container *ngIf="card.type === 'standard'">
+      {{ card.rank }} of {{ card.suit }}
+    </ng-container>
+    <ng-container *ngIf="card.type === 'joker'">
+      Joker #{{ card.id }}
+    </ng-container>
+  </div>
+</div>
