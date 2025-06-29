@@ -22,6 +22,12 @@
   border: 1px solid #ccc;
   border-radius: 4px;
   overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
 .card-img {
@@ -29,3 +35,12 @@
   height: 100%;
   object-fit: cover;
 }
+
+.empty-msg {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #666;
+}
+
+
+

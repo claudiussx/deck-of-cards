@@ -60,6 +60,20 @@ export class DeckViewComponent implements OnInit, OnDestroy {
     this.deckService.redo();
   }
 
+  get canUndo(): boolean {
+    // You’ll need to expose the history length from your service.
+    return this.deckService.canUndo();  
+  }
+
+  get canRedo(): boolean {
+    return this.deckService.canRedo();
+  }
+
+  get canDraw(): boolean {
+    return this.deck.length > 0;
+  }
+  
+
   getCardImage(card: Card): string {
     if (card.type === 'joker') {
       const jc = card as JokerCard;

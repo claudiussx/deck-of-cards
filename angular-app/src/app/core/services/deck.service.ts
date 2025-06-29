@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Card, StandardCard, JokerCard, Suit } from '../models/card.model';
 import { DeckFactory } from './deck.factory';
-import { DeckRepository } from './deck.repository';
+import { DeckRepository} from './deck.repository';
 import { Command } from '../commands/command';
 import { SnapshotCommand } from '../commands/snapshot.command';
 
@@ -134,6 +134,15 @@ export class DeckService {
         // }
 
         this.redoStack = [];
+    }
+
+    public canUndo(): boolean {
+        return this.commandHistory.length > 0;
+    }
+
+    /** Can we redo at least one step? */
+    public canRedo(): boolean {
+        return this.redoStack.length > 0;
     }
 
     // Used by SnapshotCommand to restore the deck and drawn cards to a previous state.

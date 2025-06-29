@@ -10,10 +10,16 @@
     Draw:
     <input type="number" #drawCount value="1" min="1" />
   </label>
-  <button (click)="onDraw(+drawCount.value)">Draw</button>
+  <button (click)="onDraw(+drawCount.value)" [disabled]="!canDraw">
+    Draw
+  </button>
   <button (click)="onSort()">Sort Drawn</button>
-  <button (click)="onUndo()">Undo</button>
-  <button (click)="onRedo()">Redo</button>
+  <button (click)="onUndo()" [disabled]="!canUndo">
+    Undo
+  </button>
+  <button (click)="onRedo()" [disabled]="!canRedo">
+    Redo
+  </button>
 </div>
 
 <div class="stats">
@@ -22,10 +28,16 @@
 </div>
 
 <div class="drawn-cards">
-  <div *ngFor="let card of drawn" class="card">
-    <img [src]="getCardImage(card)" class="card-img">
-  </div>
+  <ng-container *ngIf="drawn.length; else noneTpl">
+    <div *ngFor="let card of drawn" class="card">
+      <img [src]="getCardImage(card)" class="card-img" alt="" />
+    </div>
+  </ng-container>
+  <ng-template #noneTpl>
+    <p class="empty-msg">No cards drawn yet. Go ahead, draw one!</p>
+  </ng-template>
 </div>
+
 
 
 
