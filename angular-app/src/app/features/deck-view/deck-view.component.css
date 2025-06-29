@@ -5,8 +5,38 @@
   margin-bottom: 1rem;
 }
 
+.controls button {
+  background: #16213e;
+  color: #ffd700;
+  border: 1px solid #ffd700;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.controls button:hover:not(:disabled) {
+  background: #0f3460;
+}
+
+.controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* if you hover over a disabled button, keep a clear “disabled” color */
+.controls button:disabled:hover {
+  background: #444;       
+  border-color: #666;     
+  color: #999;            
+}
+
+
 .stats {
   margin-bottom: 1rem;
+}
+
+.stats p {
+  color: #f0f0f0;
 }
 
 .drawn-cards {
@@ -23,6 +53,9 @@
   border-radius: 4px;
   overflow: hidden;
   transition: transform 0.2s;
+  background: #16213e;
+  border-color: #0f3460;
+  animation: popIn 0.3s ease-out;
 }
 
 .card:hover {
@@ -42,5 +75,18 @@
   color: #666;
 }
 
+@keyframes popIn {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
 
 
