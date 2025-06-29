@@ -23,11 +23,9 @@
 
 <div class="drawn-cards">
   <div *ngFor="let card of drawn" class="card">
-    <ng-container *ngIf="card.type === 'standard'">
-      {{ card.rank }} of {{ card.suit }}
-    </ng-container>
-    <ng-container *ngIf="card.type === 'joker'">
-      Joker #{{ card.id }}
-    </ng-container>
+    <img [src]="getCardImage(card)" class="card-img">
   </div>
 </div>
+
+
+

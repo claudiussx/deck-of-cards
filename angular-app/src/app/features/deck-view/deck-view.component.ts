@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { DeckService } from '../../core/services/deck.service';
-import { Card } from '../../core/models/card.model';
+import { Card, StandardCard, JokerCard } from '../../core/models/card.model';
 
 @Component({
   selector: 'app-deck-view',
@@ -59,4 +59,21 @@ export class DeckViewComponent implements OnInit, OnDestroy {
   onRedo(): void {
     this.deckService.redo();
   }
+
+  getCardImage(card: Card): string {
+    if (card.type === 'joker') {
+      const jc = card as JokerCard;
+      const path = `assets/cards/${jc.id === 1 ? 'red_joker' : 'black_joker'}.png`;
+      console.log('Joker path:', path);
+      return path;
+    }
+
+    const sc = card as StandardCard;
+    const rank = sc.rank.toLowerCase();
+    const suit = sc.suit.toLowerCase();
+    const path = `assets/cards/${rank}_of_${suit}.png`;
+    console.log('Standard path:', path);
+    return path;
+  }
+
 }
