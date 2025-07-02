@@ -48,14 +48,12 @@
 .card {
   width: 80px;
   height: 115px;
-  /* optional styling */
   border: 1px solid #ccc;
   border-radius: 4px;
   overflow: hidden;
   transition: transform 0.2s;
   background: #16213e;
   border-color: #0f3460;
-  animation: popIn 0.3s ease-out;
 }
 
 .card:hover {
@@ -79,6 +77,20 @@
   color: #666;
 }
 
+.deck-back {
+  width: 80px;             
+  height: 115px;           
+  object-fit: cover;       
+  border: 1px solid #ccc; 
+  border-radius: 4px;      
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.deck-back.shuffling {
+  animation: deckShake 0.5s ease-in-out;
+}
+
 @keyframes popIn {
   0% {
     transform: scale(0.5);
@@ -93,4 +105,8 @@
   }
 }
 
-
+@keyframes deckShake {
+  0%, 100% { transform: translateX(0) rotate(0); }
+  25%       { transform: translateX(-5px) rotate(-2deg); }
+  75%       { transform: translateX(5px)  rotate(2deg); }
+}

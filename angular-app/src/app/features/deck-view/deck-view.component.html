@@ -1,26 +1,38 @@
-<div class="controls">
-  <label>
-    Jokers:
-    <select #jokerCount (change)="onReset(+jokerCount.value)">
-      <option *ngFor="let n of [0, 1, 2]" [value]="n">{{ n }}</option>
-    </select>
-  </label>
-  <button (click)="onShuffle()">Shuffle</button>
-  <label>
-    Draw:
-    <input type="number" #drawCount value="1" min="1" />
-  </label>
-  <button (click)="onDraw(+drawCount.value)" [disabled]="!canDraw">
-    Draw
-  </button>
-  <button (click)="onSort()">Sort Drawn</button>
-  <button (click)="onUndo()" [disabled]="!canUndo">
-    Undo
-  </button>
-  <button (click)="onRedo()" [disabled]="!canRedo">
-    Redo
-  </button>
-</div>
+<div class="controls-and-deck">
+  <img
+    #deckBack
+    *ngIf="deck.length > 0"
+    src="assets/cards/deck-back.png"
+    alt="Deck back"
+    class="deck-back"
+    [class.shuffling]="isShuffling"
+    (click)="onShuffle()"
+  />
+
+  <div class="controls">
+    <label>
+      Jokers:
+      <select #jokerCount (change)="onReset(+jokerCount.value)">
+        <option *ngFor="let n of [0, 1, 2]" [value]="n">{{ n }}</option>
+      </select>
+    </label>
+    <button (click)="onShuffle()">Shuffle</button>
+    <label>
+      Draw:
+      <input type="number" #drawCount value="1" min="1" />
+    </label>
+    <button (click)="onDraw(+drawCount.value)" [disabled]="!canDraw">
+      Draw
+    </button>
+    <button (click)="onSort()">Sort Drawn</button>
+    <button (click)="onUndo()" [disabled]="!canUndo">
+      Undo
+    </button>
+    <button (click)="onRedo()" [disabled]="!canRedo">
+      Redo
+    </button>
+  </div>
+</div>  
 
 <div class="stats">
   <p>Deck size: {{ deck.length }}</p>
@@ -29,9 +41,12 @@
 
 <div class="drawn-cards">
   <ng-container *ngIf="drawn.length; else noneTpl">
-    <div *ngFor="let card of drawn" class="card">
+    <div
+      *ngFor="let card of drawn; trackBy: trackByCard; let i = index"
+      class="card"
+      #cardEls
+    >
       <img [src]="getCardImage(card)" class="card-img" alt="" />
-      <!-- expose a text node for tests -->
       <span class="card-label">{{ getCardLabel(card) }}</span>
     </div>
   </ng-container>
@@ -39,8 +54,3 @@
     <p class="empty-msg">No cards drawn yet. Go ahead, draw one!</p>
   </ng-template>
 </div>
-
-
-
-
-
