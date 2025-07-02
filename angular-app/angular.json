@@ -23,7 +23,7 @@
                 "glob": "**/*",
                 "input": "public"
               },
-              "src/assets" 
+              "src/assets"
             ],
             "styles": [
               "src/styles.css"
@@ -81,14 +81,28 @@
                 "glob": "**/*",
                 "input": "public"
               },
-              "src/assets" 
+              "src/assets"
             ],
             "styles": [
               "src/styles.css"
             ]
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
+  },
+  "cli": {
+    "schematicCollections": [
+      "angular-eslint"
+    ]
   }
 }

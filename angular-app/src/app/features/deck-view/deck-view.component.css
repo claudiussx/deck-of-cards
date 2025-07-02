@@ -69,6 +69,10 @@
   object-fit: cover;
 }
 
+.card-label {
+  display: none;
+}
+
 .empty-msg {
   grid-column: 1 / -1;
   text-align: center;

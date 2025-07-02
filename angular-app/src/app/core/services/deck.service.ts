@@ -40,7 +40,7 @@ export class DeckService {
 
     // Resets the deck to a new shuffled state, optionally with jokers.
     // Also clears the undo/redo history.
-    resetDeck(jokersCount: number = 0) {
+    resetDeck(jokersCount = 0) {
         this.commandHistory = [];
         this.redoStack      = [];
         const standard = DeckFactory.createStandardDeck();

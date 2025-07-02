@@ -1,3 +1,4 @@
+/* eslint-disable @angular-eslint/prefer-inject */
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subscription } from 'rxjs';
@@ -90,4 +91,13 @@ export class DeckViewComponent implements OnInit, OnDestroy {
     return path;
   }
 
+  /** human readable label for test */
+  getCardLabel(card: Card): string {
+    if (card.type === 'joker') {
+      const jc = card as JokerCard;
+      return `Joker #${jc.id}`;
+    }
+    const sc = card as StandardCard;
+    return `${sc.rank} of ${sc.suit}`;
+  }
 }

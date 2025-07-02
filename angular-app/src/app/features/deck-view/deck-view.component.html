@@ -31,12 +31,15 @@
   <ng-container *ngIf="drawn.length; else noneTpl">
     <div *ngFor="let card of drawn" class="card">
       <img [src]="getCardImage(card)" class="card-img" alt="" />
+      <!-- expose a text node for tests -->
+      <span class="card-label">{{ getCardLabel(card) }}</span>
     </div>
   </ng-container>
   <ng-template #noneTpl>
     <p class="empty-msg">No cards drawn yet. Go ahead, draw one!</p>
   </ng-template>
 </div>
+
 
 
 

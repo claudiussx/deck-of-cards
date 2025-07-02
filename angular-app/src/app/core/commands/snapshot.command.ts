@@ -1,5 +1,6 @@
 import { Command } from './command';
 import { DeckService } from '../services/deck.service';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 /** Captures before/after snapshots around any DeckService action. */
 export class SnapshotCommand implements Command {

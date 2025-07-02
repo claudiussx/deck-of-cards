@@ -1,5 +1,6 @@
 // This test suite covers the main functionalities of the DeckService, including deck generation, shuffling, drawing cards, sorting drawn cards, undo/redo actions, points calculation, and state persistence. 
 // Each test checks the expected behavior of the service methods and ensures that the service maintains its integrity across operations.
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { TestBed } from '@angular/core/testing';
 import { DeckService } from './deck.service';
