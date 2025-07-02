@@ -5,8 +5,12 @@
     src="assets/cards/deck-back.png"
     alt="Deck back"
     class="deck-back"
+    role="button"                
+    tabindex="0"                 
+    (click)="onShuffle()"        
+    (keyup.enter)="onShuffle()"  
+    (keyup.space)="onShuffle()"  
     [class.shuffling]="isShuffling"
-    (click)="onShuffle()"
   />
 
   <div class="controls">
