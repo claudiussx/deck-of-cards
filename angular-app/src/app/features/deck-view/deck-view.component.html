@@ -1,60 +1,75 @@
-<div class="controls-and-deck">
-  <img
-    #deckBack
-    *ngIf="deck.length > 0"
-    src="assets/cards/deck-back.png"
-    alt="Deck back"
-    class="deck-back"
-    role="button"                
-    tabindex="0"                 
-    (click)="onShuffle()"        
-    (keyup.enter)="onShuffle()"  
-    (keyup.space)="onShuffle()"  
-    [class.shuffling]="isShuffling"
-  />
+<div class="deck-view-wrapper">
+  <div class="controls-and-deck">
+    <div class="controls">
+      <label>
+        Jokers:
+        <select #jokerCount (change)="onReset(+jokerCount.value)">
+          <option *ngFor="let n of [0,1,2]" [value]="n">{{ n }}</option>
+        </select>
+      </label>
 
-  <div class="controls">
-    <label>
-      Jokers:
-      <select #jokerCount (change)="onReset(+jokerCount.value)">
-        <option *ngFor="let n of [0, 1, 2]" [value]="n">{{ n }}</option>
-      </select>
-    </label>
-    <button (click)="onShuffle()">Shuffle</button>
-    <label>
-      Draw:
-      <input type="number" #drawCount value="1" min="1" />
-    </label>
-    <button (click)="onDraw(+drawCount.value)" [disabled]="!canDraw">
-      Draw
-    </button>
-    <button (click)="onSort()">Sort Drawn</button>
-    <button (click)="onUndo()" [disabled]="!canUndo">
-      Undo
-    </button>
-    <button (click)="onRedo()" [disabled]="!canRedo">
-      Redo
-    </button>
-  </div>
-</div>
+      <button class="btn-secondary" (click)="onShuffle()">Shuffle</button>
 
-<div class="stats">
-  <p>Deck size: {{ deck.length }}</p>
-  <p>Drawn: {{ drawn.length }} cards (Points: {{ points }})</p>
-</div>
+      <label>
+        Draw:
+        <input type="number" #drawCount value="1" min="1" />
+      </label>
+      <button
+        class="btn-primary"
+        (click)="onDraw(+drawCount.value)"
+        [disabled]="!canDraw"
+      >
+        Draw
+      </button>
 
-<div class="drawn-cards">
-  <ng-container *ngIf="drawn.length; else noneTpl">
-    <div
-      *ngFor="let card of drawn; trackBy: trackByCard; let i = index"
-      class="card"
-      #cardEls
-    >
-      <img [src]="getCardImage(card)" class="card-img" alt="" />
-      <span class="card-label">{{ getCardLabel(card) }}</span>
+      <button class="btn-secondary" (click)="onSort()">Sort Drawn</button>
+      <button class="btn-secondary" (click)="onUndo()" [disabled]="!canUndo">
+        Undo
+      </button>
+      <button class="btn-secondary" (click)="onRedo()" [disabled]="!canRedo">
+        Redo
+      </button>
     </div>
-  </ng-container>
-  <ng-template #noneTpl>
-    <p class="empty-msg">No cards drawn yet. Go ahead, draw one!</p>
-  </ng-template>
+
+    <div class="deck-back-container">
+      <img
+        #deckBack
+        *ngIf="deck.length > 0"
+        src="assets/cards/deck-back.png"
+        alt="Deck back"
+        class="deck-back"
+        role="button"
+        tabindex="0"
+        (click)="onShuffle()"
+        (keyup.enter)="onShuffle()"
+        (keyup.space)="onShuffle()"
+        [class.shuffling]="isShuffling"
+      />
+      <div *ngIf="deck.length === 0" class="deck-placeholder">
+        <span>OUT OF CARDS</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <p>Deck size: <strong>{{ deck.length }}</strong></p>
+    <p>Drawn: <strong>{{ drawn.length }}</strong> cards</p>
+    <p> Points: <strong>{{ points }}</strong>
+</p>
+  </div>
+
+  <div class="drawn-area">
+    <ng-container *ngIf="drawn.length; else noneTpl">
+      <div
+        *ngFor="let card of drawn; trackBy: trackByCard"
+        class="card"
+        #cardEls
+      >
+        <img [src]="getCardImage(card)" class="card-img" alt="" />
+      </div>
+    </ng-container>
+    <ng-template #noneTpl>
+      <p class="empty-msg">No cards drawn yet. Draw some!</p>
+    </ng-template>
+  </div>
 </div>

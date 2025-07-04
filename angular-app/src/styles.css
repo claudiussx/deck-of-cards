@@ -1,13 +1,26 @@
+:root {
+  --dark-900: #0f1a2e;
+  --dark-700: #16213e;
+  --accent-gold: #ffd700;
+  --accent-teal: #4fd1c5;
+}
 
-body {
+html, body {
   margin: 0;
-  min-height: 100vh;
+  padding: 0;
+  height: 100%;
   background: linear-gradient(
     135deg,
-    #1a1a2e 0%,
-    #16213e 50%,
-    #0f3460 100%
+    var(--dark-900) 0%,
+    var(--dark-700) 60%,
+    #0b1220 100%
   );
   color: #eaeaea;
   font-family: "Segoe UI", Roboto, sans-serif;
+}
+
+.app-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1rem;
 }
