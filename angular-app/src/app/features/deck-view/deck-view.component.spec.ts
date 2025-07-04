@@ -27,8 +27,10 @@ describe('DeckViewComponent (UI)', () => {
   it('should show initial stats: 52 cards, 0 drawn, 0 points', () => {
     const text = getStatsText();
     expect(text).toContain('Deck size: 52');
-    expect(text).toContain('Drawn: 0 cards (Points: 0)');
+    expect(text).toContain('Drawn: 0 cards');
+    expect(text).toContain('Points: 0');
   });
+
 
   it('should draw N cards when clicking Draw', fakeAsync(() => {
     // set draw count to 3
@@ -63,31 +65,30 @@ describe('DeckViewComponent (UI)', () => {
   }));
 
   it('should sort drawn cards putting Clubs before Hearts and jokers last', fakeAsync(() => {
-    // manually draw 0, then push an unsorted hand into the service
     component.onReset(1);
-    // simulate drawing known cards by bypassing UI:
     component['deckService']['drawnSubject'].next([
-      { type: 'joker' as const, rank: 'Joker', id: 1 },
-      { type: 'standard' as const, suit: 'Hearts', rank: '2', value: 2 },
-      { type: 'standard' as const, suit: 'Clubs', rank: 'Ace', value: 14 },
+      { type: 'joker' as const,  rank: 'Joker',   id: 1 },
+      { type: 'standard' as const, suit: 'Hearts', rank: '2',    value: 2 },
+      { type: 'standard' as const, suit: 'Clubs',  rank: 'Ace',  value: 14 },
     ]);
     tick();
     fixture.detectChanges();
 
-    // click Sort Drawn
-    const sortBtn = fixture.debugElement.queryAll(By.css('button'))
-      .find(btn => btn.nativeElement.textContent.trim() === 'Sort Drawn')!;
+    const sortBtn = fixture.debugElement
+      .queryAll(By.css('button'))
+      .find(b => b.nativeElement.textContent.trim() === 'Sort Drawn')!;
     sortBtn.nativeElement.click();
     tick();
     fixture.detectChanges();
 
-    // extract the rendered cards
-    const cards = fixture.debugElement.queryAll(By.css('.drawn-cards .card'))
-      .map(de => de.nativeElement.textContent.trim());
+    const imgs = fixture.debugElement
+      .queryAll(By.css('.drawn-area .card-img'))
+      .map(de => de.nativeElement.getAttribute('src'));
 
-    expect(cards[0]).toBe('Ace of Clubs');
-    expect(cards[1]).toBe('2 of Hearts');
-    expect(cards[2]).toBe('Joker #1');
+    expect(imgs.length).toBe(3);
+    expect(imgs[0]).toContain('ace_of_clubs');   
+    expect(imgs[1]).toContain('2_of_hearts');
+    expect(imgs[2]).toContain('red_joker');         
   }));
 
   it('should undo and redo an action via the UI buttons', fakeAsync(() => {
