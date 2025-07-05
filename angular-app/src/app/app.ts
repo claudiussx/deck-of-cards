@@ -1,6 +1,6 @@
-import { Component }      from '@angular/core';
-import { CommonModule }   from '@angular/common';
-import { RouterOutlet }   from '@angular/router';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterOutlet } from '@angular/router';
 import { DeckViewComponent } from './features/deck-view/deck-view.component';
 
 @Component({
@@ -14,6 +14,6 @@ import { DeckViewComponent } from './features/deck-view/deck-view.component';
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })
-export class AppComponent {            
-  title = 'angular-app';               
+export class AppComponent {
+  title = 'angular-app';
 }

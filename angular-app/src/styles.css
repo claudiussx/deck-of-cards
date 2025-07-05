@@ -5,16 +5,15 @@
   --accent-teal: #4fd1c5;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;
-  background: linear-gradient(
-    135deg,
-    var(--dark-900) 0%,
-    var(--dark-700) 60%,
-    #0b1220 100%
-  );
+  background: linear-gradient(135deg,
+      var(--dark-900) 0%,
+      var(--dark-700) 60%,
+      #0b1220 100%);
   color: #eaeaea;
   font-family: "Segoe UI", Roboto, sans-serif;
 }

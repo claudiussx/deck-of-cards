@@ -1,6 +1,8 @@
 <div class="deck-view-wrapper">
+  <!-- Main wrapper for the deck view component -->
   <div class="controls-and-deck">
     <div class="controls">
+      <!-- Joker selection dropdown -->
       <label>
         Jokers:
         <select #jokerCount (change)="onReset(+jokerCount.value)">
@@ -8,20 +10,19 @@
         </select>
       </label>
 
+      <!-- Shuffle the deck button -->
       <button class="btn-secondary" (click)="onShuffle()">Shuffle</button>
 
+      <!-- Draw count input and draw button -->
       <label>
         Draw:
         <input type="number" #drawCount value="1" min="1" />
       </label>
-      <button
-        class="btn-primary"
-        (click)="onDraw(+drawCount.value)"
-        [disabled]="!canDraw"
-      >
+      <button class="btn-primary" (click)="onDraw(+drawCount.value)" [disabled]="!canDraw">
         Draw
       </button>
 
+      <!-- Sort, Undo, and Redo controls for drawn cards -->
       <button class="btn-secondary" (click)="onSort()">Sort Drawn</button>
       <button class="btn-secondary" (click)="onUndo()" [disabled]="!canUndo">
         Undo
@@ -32,19 +33,11 @@
     </div>
 
     <div class="deck-back-container">
-      <img
-        #deckBack
-        *ngIf="deck.length > 0"
-        src="assets/cards/deck-back.png"
-        alt="Deck back"
-        class="deck-back"
-        role="button"
-        tabindex="0"
-        (click)="onShuffle()"
-        (keyup.enter)="onShuffle()"
-        (keyup.space)="onShuffle()"
-        [class.shuffling]="isShuffling"
-      />
+      <!-- Deck back image, clickable for shuffling -->
+      <img #deckBack *ngIf="deck.length > 0" src="assets/cards/deck-back.png" alt="Deck back" class="deck-back"
+        role="button" tabindex="0" (click)="onShuffle()" (keyup.enter)="onShuffle()" (keyup.space)="onShuffle()"
+        [class.shuffling]="isShuffling" />
+      <!-- Placeholder when deck is empty -->
       <div *ngIf="deck.length === 0" class="deck-placeholder">
         <span>EMPTY</span>
       </div>
@@ -52,19 +45,19 @@
   </div>
 
   <div class="stats">
+    <!-- Restart the deck with current joker count -->
+    <button class="btn-reset" (click)="onReset(+jokerCount.value)">Restart</button>
+    <!-- Deck and drawn cards statistics -->
     <p>Deck size: <strong>{{ deck.length }}</strong></p>
     <p>Drawn: <strong>{{ drawn.length }}</strong> cards</p>
     <p> Points: <strong>{{ points }}</strong>
-</p>
+    </p>
   </div>
 
   <div class="drawn-area">
+    <!-- Render drawn cards, or show a message if none drawn -->
     <ng-container *ngIf="drawn.length; else noneTpl">
-      <div
-        *ngFor="let card of drawn; trackBy: trackByCard"
-        class="card"
-        #cardEls
-      >
+      <div *ngFor="let card of drawn; trackBy: trackByCard" class="card" #cardEls>
         <img [src]="getCardImage(card)" class="card-img" alt="" />
       </div>
     </ng-container>

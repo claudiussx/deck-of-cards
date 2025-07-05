@@ -8,11 +8,11 @@ import {
   QueryList,
   ElementRef
 } from '@angular/core';
-import { CommonModule }                   from '@angular/common';
-import { Subscription }                   from 'rxjs';
-import { DeckService }                    from '../../core/services/deck.service';
-import { Card, StandardCard, JokerCard }  from '../../core/models/card.model';
-import { ChangeDetectorRef }              from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Subscription } from 'rxjs';
+import { DeckService } from '../../core/services/deck.service';
+import { Card, StandardCard, JokerCard } from '../../core/models/card.model';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-deck-view',
@@ -22,11 +22,11 @@ import { ChangeDetectorRef }              from '@angular/core';
   styleUrls: ['./deck-view.component.css'],
 })
 export class DeckViewComponent implements OnInit, OnDestroy {
-  // Reference to the deck back element in the template
-  @ViewChild('deckBack', { read: ElementRef }) 
+  // Reference to the deck back element in the template (used for animation origin)
+  @ViewChild('deckBack', { read: ElementRef })
   deckBack!: ElementRef<HTMLElement>;
 
-  // References to all card elements currently rendered
+  // References to all card elements currently rendered (for animation)
   @ViewChildren('cardEls', { read: ElementRef })
   cardEls!: QueryList<ElementRef<HTMLElement>>;
 
@@ -43,13 +43,15 @@ export class DeckViewComponent implements OnInit, OnDestroy {
   private subs = new Subscription();
 
   // Inject the deck service and change detector
-  constructor(private deckService: DeckService, private cd: ChangeDetectorRef) {}
+  constructor(private deckService: DeckService, private cd: ChangeDetectorRef) { }
 
   // Subscribe to deck and drawn card changes when the component is initialized
   ngOnInit(): void {
+    // Listen for deck changes
     this.subs.add(
       this.deckService.deck$.subscribe(d => (this.deck = d))
     );
+    // Listen for drawn card changes and update points
     this.subs.add(
       this.deckService.drawn$.subscribe(d => {
         this.drawn = d;
@@ -72,6 +74,7 @@ export class DeckViewComponent implements OnInit, OnDestroy {
   onShuffle(): void {
     this.isShuffling = true;
     this.deckService.shuffle();
+    // End the shuffling animation after 500ms
     setTimeout(() => (this.isShuffling = false), 500);
   }
 
@@ -96,6 +99,7 @@ export class DeckViewComponent implements OnInit, OnDestroy {
       const dx = deckRect.left - finalRect.left;
       const dy = deckRect.top - finalRect.top;
 
+      // Start with no transition and move/scale the card to the deck position
       el.style.transition = 'none';
       el.style.transform = `translate(${dx}px, ${dy}px) scale(0.8)`;
       el.style.opacity = '0';
@@ -107,12 +111,14 @@ export class DeckViewComponent implements OnInit, OnDestroy {
         const el = elRef.nativeElement;
         const card = newCards[i];
 
+        // Animate transform and opacity to bring the card into view
         el.style.transition = 'transform 400ms ease-out, opacity 400ms ease-out';
         el.style.transform = '';
         el.style.opacity = '1';
 
         // If the card is a joker, add a special effect
         if (card.type === 'joker') {
+          // Add a CSS class for the joker effect, then remove it after 800ms
           setTimeout(() => {
             el.classList.add('joker-effect');
             setTimeout(() => el.classList.remove('joker-effect'), 800);
@@ -152,6 +158,7 @@ export class DeckViewComponent implements OnInit, OnDestroy {
 
   // Track cards by a unique identifier for efficient rendering
   trackByCard(_idx: number, card: Card): string {
+    // Use a unique string for each card (joker or standard)
     return card.type === 'joker'
       ? `joker-${(card as JokerCard).id}`
       : `${(card as StandardCard).suit}-${(card as StandardCard).rank}`;
@@ -161,9 +168,11 @@ export class DeckViewComponent implements OnInit, OnDestroy {
   getCardImage(card: Card): string {
     if (card.type === 'joker') {
       const jc = card as JokerCard;
+      // Use different images for red and black jokers
       return `assets/cards/${jc.id === 1 ? 'red_joker' : 'black_joker'}.png`;
     }
     const sc = card as StandardCard;
+    // Standard card image path
     return `assets/cards/${sc.rank.toLowerCase()}_of_${sc.suit.toLowerCase()}.png`;
   }
 
