@@ -19,7 +19,7 @@ body {
 }
 
 .app-container {
-  max-width: 900px;
+  max-width: 56.25rem;
   margin: 0 auto;
   padding: 1rem;
 }
